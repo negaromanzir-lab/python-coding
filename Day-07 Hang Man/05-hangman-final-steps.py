@@ -1,0 +1,63 @@
+# step-5
+import os
+import random
+from hangman_words import word_list
+from hangman_art import logo, stages
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+#TODO-1: - Update the word list to use the 'word_list' from hangman_words.py
+# this is the way of using the module and the variable in that module. We can use the variable name as it is because we have imported the module.
+
+#import hangman_words
+chosen_word = random.choice(word_list)
+word_len = len(chosen_word)
+
+end_of_game = False
+lives = 6
+#TODO-3: - Import the logo from 05-hangman_art.py and print it at the start of the game.
+print(logo)
+
+#Testing code
+print(f"Pssst, the solutionis {chosen_word}.")
+
+#Create blank
+display = []
+for _ in range(word_len):
+    display += "_"
+
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+
+    clear()
+    
+    #TODO-4: - If the user has entered a letter they've already guessed, print the letter and let them know.
+    if guess in display:
+        print(f"You've already guessed {guess}")
+
+    # check guessed letter
+    for position in range(word_len):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    if guess not in chosen_word:
+        #TODO-5: - If the letter is not in the chosen_word, print out the letter and let them know it's not in the word.
+        print(f"You guessed {guess}, that's not in the word. You lose a life.")
+        lives -= 1
+        if lives == 0:
+            end_of_game = True
+            print("You lose.")
+
+    #Join all the elements in the list and turn it into a String.
+    print(f"{' '.join(display)}")
+
+    #check if user has got all letters.
+    if "_" not in display:
+        end_of_game = True
+        print("You win!")
+    
+    #TODO-2: - Import the stages from hangman_art.py and make this error go away by changing 'stages' to 'stages[lives]'.
+    print(stages[lives])
