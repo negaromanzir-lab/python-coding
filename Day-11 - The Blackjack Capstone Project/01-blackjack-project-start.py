@@ -64,4 +64,4 @@ def play_game():
     print(compare(user_score, computer_score))
 
 
-play_game()
+play_game() # Call the function to start the game
